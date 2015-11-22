@@ -7,46 +7,41 @@ let pageReader = require('./../page-reader');
 let htmlParser = require('./../html-parser')
 
 
-
-
 let getUrlContent = url => {
   return pageReader
     .readUrl(url)
     .then(body => {
-      return new Promise((resolve, reject) => {
-        queue.setContent('page', url, body)
-          .then(resolve(body))
-          .catch(e => reject(e))
-      })
+      return queue.setContent('page', url, body)
+          .then(() => {return body; })
     })
     .catch(e => console.log("erro while reading ulr " + url, e))
 };
 
+let readUrlAndSaveItsLinks = url => {
+  getUrlContent(url).then(function(savePromise){
+    savePromise.then(body => {
+      logger.log('info', '> read ' + url);
+
+      console.log(body)
+
+      let links = htmlParser.findLinksInPage(url, body);
 
 
 
+      let saveLinksFunctions = links.map(link => {
+        return queue.set('link', link);
+      })
 
-let readUrlAndReturnItsLinks = url => {
-  getUrlContent(url).then(function(body){
-    logger.log('info', '> read ' + url);
+      Promise.all(saveLinksFunctions).then(a => {
+        logger.log('info', '> > ' + links.length + ' saved ');
+      })
 
-    let links = htmlParser.findLinksInPage(url, body);
-
-
-
-    let saveLinksFunctions = links.map(link => {
-      return queue.set('link', link);
     })
-
-    Promise.all(saveLinksFunctions).then(a => {
-      logger.log('info', '> > ' + links.length + ' saved ');
-    })
-
   })
-    .catch(e => console.log("erro while reading dasdsadaulr " + url, e))
+  .catch(e => console.log("erro while reading dasdsadaulr " + url, e.stack))
 };
 
-readUrlAndReturnItsLinks("https://www.wikipedia.org");
+readUrlAndSaveItsLinks("https://en.wikipedia.org/wiki/Main_Page");
 
 
 //let getUrlContent = url => {

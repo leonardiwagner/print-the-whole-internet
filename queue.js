@@ -16,7 +16,7 @@ let setContent = (queueName, key, value) => {
     redis.exists(key,(err, reply) => {
       if(err) reject(err);
       if(reply === 1) return reject(key + " already processed")
-      return;
+
       redis.set(key, value, (err, reply) => {
         if(err) reject(err);
         redis.rpush(queueName, key, (err, reply) => {
@@ -35,6 +35,7 @@ let get = (queueName) => {
     redis.lpop(queueName, (err, key) => {
       if(err) reject(err);
       if(key === null) reject("No items in " + queueName + " queue");
+      resolve(key);
     });
   });
 };

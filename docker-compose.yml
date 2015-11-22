@@ -15,3 +15,8 @@ redis:
   ports:
       - "6379:6379"
 
+elasticsearch:
+  image: elasticsearch:2.0
+  ports:
+      - "9200:3900"
+
