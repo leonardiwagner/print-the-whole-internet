@@ -19,21 +19,28 @@ let findLinksInPage = (url, html) => {
   return normalizedLinks;
 };
 
+let serializeHtml = html =>{
+  let $ = cheerio.load(html);
+
+  let body = $("#content");
+
+  let subTitles = [];
+  body.find("h2").each((_, link) => subTitles.push($(link).text().replace("[edit]","")))
+
+  let images = [];
+  body.find("img").each((_, image) => images.push($(image).attr('src')))
 
 
-let normalizeUrl = (parentUrl, url) => {
-  if(url === undefined){
-    return null;
-  }else if(url.substr(0,2) === '//') {
-    let protocol = parentUrl.toLowerCase().substr(0, 5) === 'https' ? 'https' : 'http';
-    return protocol + ':' + url;
-  } else if(url.substr(0,1) === '/'){
-    return parentUrl + url;
-  }else{
-    return null;
+
+  return {
+    'pageTitle': $(body).find('h1').text(),
+    //'body': $(body).text(),
+    'subTitles': subTitles,
+    'images': images
   }
-};
+}
 
 module.exports = {
-  findLinksInPage: findLinksInPage
+  findLinksInPage: findLinksInPage,
+  serializeHtml: serializeHtml
 }

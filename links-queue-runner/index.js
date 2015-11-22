@@ -15,6 +15,12 @@ let runQuery = () => {
     logger.info("> Start processing link", url)
 
     pageReader.readUrl(url).then(body => {
+
+      let x = htmlParser.serializeHtml(body);
+      console.log(x)
+      return;
+
+
       logger.info("> > Saving content", url)
 
       queue.setContent('page', url, body).then(() =>{
