@@ -15,9 +15,11 @@ let runQuery = () => {
     logger.info("> Start processing link", url)
 
     pageReader.readUrl(url).then(body => {
-
+      let links = htmlParser.findLinksInPage(url, body);
       let x = htmlParser.serializeHtml(body);
+      x.links = links
       console.log(x)
+      logger.info("> > Links found", links.length)
       return;
 
 
@@ -26,8 +28,6 @@ let runQuery = () => {
       queue.setContent('page', url, body).then(() =>{
         logger.info("> > Content saved", url)
 
-        let links = htmlParser.findLinksInPage(url, body);
-        logger.info("> > Links found", links.length)
         let saveLinksFunctions = links.map(link => {
           return queue.set('link', link);
         })

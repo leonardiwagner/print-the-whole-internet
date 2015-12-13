@@ -7,22 +7,16 @@ let pageReader = require('./../page-reader');
 let htmlParser = require('./../html-parser')
 
 
-let getUrlContent = url => {
-  return pageReader
-    .readUrl(url)
-    .then(body => {
-      return queue.setContent('page', url, body)
-          .then(() => {return body; })
-    })
-    .catch(e => console.log("erro while reading ulr " + url, e))
-};
+
 
 let readUrlAndSaveItsLinks = url => {
-  getUrlContent(url).then(function(savePromise){
-    savePromise.then(body => {
-      logger.log('info', '> read ' + url);
+  pageReader
+  .readUrl(url)
+  .then(body => {
 
-      console.log(body)
+    queue.setContent('page', url, body)
+    .then(() => {
+      logger.log('info', '> read ' + url);
 
       let links = htmlParser.findLinksInPage(url, body);
 
@@ -35,6 +29,9 @@ let readUrlAndSaveItsLinks = url => {
       Promise.all(saveLinksFunctions).then(a => {
         logger.log('info', '> > ' + links.length + ' saved ');
       })
+    })
+    .catch(e => {
+      console.log("EAE", e)
 
     })
   })

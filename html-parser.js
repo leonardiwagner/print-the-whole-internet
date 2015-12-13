@@ -19,7 +19,11 @@ let findLinksInPage = (url, html) => {
   return normalizedLinks;
 };
 
-let serializeHtml = html =>{
+let getCategories = categoriesList => {
+
+};
+
+let serializeHtml = html => {
   let $ = cheerio.load(html);
 
   let body = $("#content");
@@ -30,15 +34,20 @@ let serializeHtml = html =>{
   let images = [];
   body.find("img").each((_, image) => images.push($(image).attr('src')))
 
+  let categories = [];
+  body.find('#mw-normal-catlinks ul li a').each((_, category) => categories.push($(category).attr('href')))
 
 
   return {
     'pageTitle': $(body).find('h1').text(),
     //'body': $(body).text(),
     'subTitles': subTitles,
-    'images': images
+    'images': images,
+    'categories': categories
   }
 }
+
+
 
 module.exports = {
   findLinksInPage: findLinksInPage,
