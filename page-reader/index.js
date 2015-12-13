@@ -4,7 +4,7 @@ let logger = require('winston');
 
 let queue = require('./../queue');
 let pageReader = require('./../page-reader');
-let htmlParser = require('./../html-parser')
+let htmlParser = require('./../domain/html-parser')
 
 
 
