@@ -1,24 +1,26 @@
+'use strict'
+
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
-  host: 'elasticsearch:9200',
+  host: '172.17.0.2:9200',
   log: 'trace'
 });
 
 
-let add = (profileId, profile) =>{
+let add = (profile) =>{
+  return new Promise((resolve, reject) => {
+    client.index({
+      index: 'printthewholeinternet',
+      type: 'page',
+      body: profile
+    }, function (error, response) {
+      console.log("error", error)
+      console.log("response", response)
 
-  client.index({
-    index: 'printthewholeinternet',
-    type: 'page',
-    body: {
-      url: 'Test 1',
-      tags: ['y', 'z'],
-      published: true,
-    }
-  }, function (error, response) {
-
-  });
-
+      if(error) reject(error)
+      else resolve(response)
+    });
+  })
 }
 
 module.exports = {

@@ -2,9 +2,10 @@
 
 let redis = require("redis").createClient({'host': 'redis', 'port': 6379});
 
-let keyAlreadyExists = (queueName, key) => {
+let keyAlreadyExists = key => {
   return new Promise((resolve, reject) => {
     redis.exists(key, (err, reply) => {
+      console.log("reply", reply)
       if (err)         return reject(err);
       if (reply === 1) return resolve(true);
       return resolve(false);
@@ -13,7 +14,7 @@ let keyAlreadyExists = (queueName, key) => {
 };
 
 let setContent = (key, value) => {
-  return new Promise((reject, resolve) => {
+  return new Promise((resolve, reject) => {
     redis.set(key, value, (err, reply) => {
       if (err) reject(err);
       else resolve();
@@ -24,7 +25,10 @@ let setContent = (key, value) => {
 let setKeyIntoQueue = (queueName, key) => {
   return new Promise((resolve, reject) => {
     redis.rpush(queueName, key, (err, reply) => {
-      if (err) reject(err);
+      if (err) {
+        console.log("ave", err)
+        reject(err);
+      }
       resolve(reply);
     });
   });
@@ -33,12 +37,12 @@ let setKeyIntoQueue = (queueName, key) => {
 module.exports = function(queueName){
   return {
     set: (key, value) => {
-      return keyAlreadyExists(queueName, key)
+      return keyAlreadyExists(key)
         .then((exists) => {
-          if (!exists) setContent(key, value);
+          if (!exists) return setContent(key, value)
           else         throw "key " + key + " already exists in queue!";
         }).then(() => {
-          setKeyIntoQueue(queueName, key)
+          return setKeyIntoQueue(queueName, key)
         }).catch(err => {
           throw err;
         });
