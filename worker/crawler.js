@@ -6,7 +6,7 @@ let crawlerService = require('./../service/crawlerService')
 let setProfileToStartCrawling = () => {
   return crawlerService.insertProfileLinksToQueue([{
     id: 'starter',
-    href: 'https://www.linkedin.com/in/williamhgates'
+    href: 'https://www.linkedin.com/in/giovannibassi'
   }])
 }
 
