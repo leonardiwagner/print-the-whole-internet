@@ -3,7 +3,7 @@
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
   host: '172.17.0.2:9200',
-  log: 'trace'
+  //log: 'trace'
 });
 
 
@@ -14,9 +14,6 @@ let add = (profile) =>{
       type: 'page',
       body: profile
     }, function (error, response) {
-      console.log("error", error)
-      console.log("response", response)
-
       if(error) reject(error)
       else resolve(response)
     });

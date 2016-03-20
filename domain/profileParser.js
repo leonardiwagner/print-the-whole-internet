@@ -3,12 +3,17 @@
 var cheerio = require('cheerio');
 
 var $ = undefined;
-var parse = function() {
+
+let clearText = text => {
+  return text //TODO: clear special characters and stuff
+}
+
+var parse = function () {
   var profile = {
     name: $(".profile-overview-content .full-name").text(),
     locality: $(".profile-overview-content .locality").text(),
     industry: $(".profile-overview-content .industry").text(),
-    summary: $("#background .summary").text(),
+    summary: clearText($("#background .summary").text()),
     connectionsCount: parseInt($(".member-connections strong").text().replace(",", "")),
     experiences: [],
     skills: [],
@@ -16,17 +21,19 @@ var parse = function() {
     honors: [],
     languages: [],
     organizations: [],
-    endorsements: {
-      "received": parseInt($("#endorsements .nav-received-tab").text().replace("Received (", "").replace(")", "")),
-      "given": parseInt($("#endorsements .nav-given-tab").text().replace("Given (", "").replace(")", ""))
-    }
+    endorsements: {}
   }
+
+  var endorsementsReceived = parseInt($("#endorsements .nav-received-tab").text().replace("Received (", "").replace(")", ""))
+  var endorsementsGiven = parseInt($("#endorsements .nav-given-tab").text().replace("Given (", "").replace(")", ""))
+  profile.endorsements.received = !isNaN(endorsementsReceived) ? endorsementsReceived : 0
+  profile.endorsements.given = !isNaN(endorsementsGiven) ? endorsementsGiven : 0
 
   $("#background-experience > div").each(function (i, elem) {
     var experience = {
       title: $(this).find("h4").text(),
       company: $(this).find("header > h5").text(),
-      description: $(this).find(".description").text(),
+      description: clearText($(this).find(".description").text()),
       durationStart: $(this).find(".experience-date-locale time:first-child").text(),
       durationEnd: $(this).find(".experience-date-locale time:last-child").text(),
       locality: $(this).find(".experience-date-locale .locality").text(),
@@ -48,7 +55,7 @@ var parse = function() {
     var education = {
       title: $(this).find("h4").text(),
       degree: $(this).find("h5 > .degree").text().replace(",", ""),
-      description: $(this).find("p").text(),
+      description: clearText($(this).find("p").text()),
       majors: []
     }
 
@@ -92,7 +99,7 @@ var parse = function() {
       title: $(this).find("h4").text(),
       role: $(this).find("h5").text(),
       time: $(this).find("time").text(),
-      description: $(this).find("p").text()
+      description: clearText($(this).find("p").text())
     };
 
   })
@@ -100,37 +107,33 @@ var parse = function() {
   return profile;
 }
 
+var getProfileLinks = function () {
+  var profiles = []
 
+  var pushProfile = href => {
+    const idStart = href.indexOf("id=") + 3
+    const idEnd = href.indexOf("&", idStart)
+    const id = href.substr(idStart, idEnd - idStart);
 
-
-  var getProfileLinks = function(){
-    var profiles = []
-
-    var pushProfile = href => {
-      const idStart = href.indexOf("id=") + 3
-      const idEnd = href.indexOf("&", idStart)
-      const id = href.substr(idStart, idEnd - idStart);
-
-      profiles.push({
-        'id': id,
-        'href': href
-      })
-    }
-
-    $("a.browse-map-photo").each(function (i, elem) {
-      pushProfile($(this).attr("href"))
-    });
-
-    $("a.discovery-photo").each(function (i, elem) {
-      pushProfile($(this).attr("href"))
-    });
-
-    return profiles;
+    profiles.push({
+      'id': id,
+      'href': href
+    })
   }
 
+  $("a.browse-map-photo").each(function (i, elem) {
+    pushProfile($(this).attr("href"))
+  });
+
+  $("a.discovery-photo").each(function (i, elem) {
+    pushProfile($(this).attr("href"))
+  });
+
+  return profiles;
+}
 
 
-module.exports = function(html) {
+module.exports = function (html) {
   $ = cheerio.load(html);
 
   return {

@@ -21,7 +21,7 @@ let requestPage = (url, cookiesJar) => {
   const options = {method: 'GET', url: url, jar: cookiesJar};
   return new Promise((resolve, reject) => {
     request(options, function (error, response, body) {
-      if (error) throw new reject(error);
+      if (error) reject(error)
       else resolve(body)
     });
   })

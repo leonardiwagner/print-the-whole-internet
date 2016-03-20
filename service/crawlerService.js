@@ -5,33 +5,44 @@ let ProfileParser = require('./../domain/profileParser');
 let profileQueue = require('./../infra/queue')('profile');
 let profileRepository = require('./../infra/profileRepository');
 
-let saveProfileLinks = links => {
+let crawlProfile = url => {
+  return new Promise((resolve, reject) => {
+    pageReader.readBody(url).then(html => {
+      let profileParser = new ProfileParser(html)
+
+      let crawledObject = {
+        'profileLinks': profileParser.getProfileLinks(),
+        'profile': profileParser.parse(html)
+      }
+
+      crawledObject.profile.id = url //Only to make unique to make item processing profling
+
+      return resolve(crawledObject)
+    }).catch(e => reject(e))
+  })
+}
+
+let getProfileUrlFromQueue = () => {
+  return profileQueue.get()
+}
+
+let insertProfileLinksToQueue = links => {
   let saveActions = links.map(link => {
     return profileQueue.set(link.id, link.href);
   })
 
-  Promise.all(saveActions).then(a => {
-    console.log('crawlerService saved links', links.length);
+  return Promise.all(saveActions).then(a => {
+    return a.length;
   }).catch(e => console.log("upps", e))
 }
 
-let processPage = url => {
-  pageReader.readBody(url).then(html => {
-    let profileParser = new ProfileParser(html)
-    let profileLinks = profileParser.getProfileLinks()
-    let profile = profileParser.parse(html)
-
-    saveProfileLinks(profileLinks)
-
-    profileRepository.add(profile).then(()=>{
-      console.log("vai corinthians")
-    })
-
-
-
-    return
-  }).catch(e => console.log("crawlerService error", e))
+let saveProfile = profile => {
+  return profileRepository.add(profile)
 }
 
-
-processPage("https://www.linkedin.com/in/heber-ortiz-b5909b18?authType=name&authToken=s4pN&trk=prof-sb-browse_map-photo");
+module.exports = {
+  crawlProfile: crawlProfile,
+  getProfileUrlFromQueue: getProfileUrlFromQueue,
+  insertProfileLinksToQueue: insertProfileLinksToQueue,
+  saveProfile: saveProfile
+}
