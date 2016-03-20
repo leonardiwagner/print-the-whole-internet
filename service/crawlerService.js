@@ -1,9 +1,9 @@
 'use strict';
 
-let pageReader = require('./pageReader');
-let ProfileParser = require('./profileParser');
-let profileQueue = require('./infra/queue')('profile');
-let profileRepository = require('./infra/profileRepository');
+let pageReader = require('./../infra/pageReader');
+let ProfileParser = require('./../domain/profileParser');
+let profileQueue = require('./../infra/queue')('profile');
+let profileRepository = require('./../infra/profileRepository');
 
 let saveProfileLinks = links => {
   let saveActions = links.map(link => {

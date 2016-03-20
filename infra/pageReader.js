@@ -8,7 +8,7 @@ let cookiesReader = require('./cookiesReader')
 let getCookiesJar = () => {
   let cookiesJar = request.jar();
 
-  return cookiesReader.read('cookies.json').then(cookies => {
+  return cookiesReader.read('./infra/cookies.json').then(cookies => {
     cookies.forEach(function (cookie) {
       cookiesJar.setCookie(request.cookie(cookie.name + '=' + cookie.value), "http://www.linkedin.com")
     })
