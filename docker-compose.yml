@@ -1,11 +1,13 @@
 app:
   image: node:4
-  command: "bash -c 'npm install & node video-searcher'"
+  #command: "bash -c 'npm install & node video-searcher'"
+  command: "bash -c 'npm install'"
   working_dir: /project
   volumes:
     - .:/project
   links:
     - redis
+    - elasticsearch
   ports:
     - "3033:3033"
 
