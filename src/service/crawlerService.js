@@ -1,7 +1,7 @@
 'use strict';
 
 let pageReader = require('./../infra/pageReader');
-let ProfileParser = require('./../domain/profileParser');
+let ProfileParser = require('./../domain/parsers/basicProfileParser');
 let profileQueue = require('./../infra/queue')('profile');
 let profileRepository = require('./../infra/profileRepository');
 
