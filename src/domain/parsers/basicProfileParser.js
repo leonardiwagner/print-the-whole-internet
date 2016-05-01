@@ -1,19 +1,15 @@
 'use strict';
 
-var cheerio = require('cheerio');
+let cheerio = require('cheerio');
 
-var $ = undefined;
+let textCleaner = require('./parserTextCleaner')
 
-let clearText = text => {
-  return text //TODO: clear special characters and stuff
-}
-
-var parse = function () {
+var parse = function ($) {
   var profile = {
     name: $(".profile-overview-content .full-name").text(),
     locality: $(".profile-overview-content .locality").text(),
     industry: $(".profile-overview-content .industry").text(),
-    summary: clearText($("#background .summary").text()),
+    summary: textCleaner.clear($("#background .summary").text()),
     connectionsCount: parseInt($(".member-connections strong").text().replace(",", "")),
     experiences: [],
     skills: [],
@@ -76,11 +72,7 @@ var getProfileLinks = function () {
 }
 
 
-module.exports = function (html) {
-  $ = cheerio.load(html);
-
-  return {
-    parse: parse,
-    getProfileLinks: getProfileLinks
-  }
+module.exports = {
+  parse: parse,
+  getProfileLinks: getProfileLinks
 }

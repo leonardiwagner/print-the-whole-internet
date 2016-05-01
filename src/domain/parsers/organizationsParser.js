@@ -1,5 +1,7 @@
 'use strict'
 
+let textCleaner = require('./parserTextCleaner')
+
 module.exports = {
   parse: $ => {
     let organizations = []
@@ -8,7 +10,7 @@ module.exports = {
         title: $(this).find("h4").text(),
         role: $(this).find("h5").text(),
         time: $(this).find("time").text(),
-        description: clearText($(this).find("p").text())
+        description: textCleaner.clear($(this).find("p").text())
       };
 
       organizations.push(organization)

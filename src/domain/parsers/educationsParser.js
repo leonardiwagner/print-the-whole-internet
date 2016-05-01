@@ -1,5 +1,7 @@
 'use strict'
 
+let textCleaner = require('./parserTextCleaner')
+
 module.exports = {
   parse: $ => {
     let educations = []
@@ -7,7 +9,7 @@ module.exports = {
       const education = {
         title: $(this).find("h4").text(),
         degree: $(this).find("h5 > .degree").text().replace(",", ""),
-        description: clearText($(this).find("p").text()),
+        description: textCleaner.clear($(this).find("p").text()),
         majors: []
       }
 

@@ -4,7 +4,7 @@ module.exports = {
   parse: $ => {
     let honors = []
     $("#background-honors > div").each(function (i, elem) {
-      const honors = {
+      const honor = {
         title: $(this).find("h4").text(),
         company: $(this).find("h5").text(),
         time: $(this).find("time").text(),

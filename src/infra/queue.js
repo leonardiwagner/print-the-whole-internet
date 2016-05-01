@@ -1,36 +1,6 @@
 'use strict';
 
-let redis = require("redis").createClient({'host': 'redis', 'port': 6379});
-
-let keyAlreadyExists = key => {
-  return new Promise((resolve, reject) => {
-    redis.exists(key, (err, reply) => {
-      if (err)         return reject(err);
-      if (reply === 1) return resolve(true);
-      return resolve(false);
-    });
-  });
-};
-
-let setContent = (key, value) => {
-  return new Promise((resolve, reject) => {
-    redis.set(key, value, (err, reply) => {
-      if (err) reject(err);
-      else resolve();
-    });
-  });
-};
-
-let setKeyIntoQueue = (queueName, key) => {
-  return new Promise((resolve, reject) => {
-    redis.rpush(queueName, key, (err, reply) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(reply);
-    });
-  });
-};
+let queue = require("rediskill")('redis', 6379);
 
 module.exports = function(queueName){
   return {
