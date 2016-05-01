@@ -1,7 +1,6 @@
 'use strict'
 
-let chai = require('chai')
-let should = chai.should()
+let should = require('chai').should()
 
 let profileParser = require('../../../src/domain/profileParser')
 
@@ -20,18 +19,7 @@ describe('profile parser tests', () => {
       profile.industry.should.equal("Internet");
       profile.summary.length.should.equal(913);
       profile.connectionsCount.should.equal(395);
-    });
+    })
 
-    it('should parse experiences info', () => {
-      const experiences = profile.experiences;
-
-      experiences.length.should.equal(10)
-
-      experiences[0].title.should.equal('Web Developer')
-      experiences[0].company.should.equal('Patagonian Tech')
-      experiences[0].description.should.equal('Ruby on Rails development and Bootstrap')
-      experiences[0].durationStart.should.equal('August 2015')
-      experiences[0].durationEnd.should.equal('Present')
-      experiences[0].locality.should.equal('')
-    });
-});
+    
+})

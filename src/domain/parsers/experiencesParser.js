@@ -1,29 +1,7 @@
 'use strict'
 
 let textCleaner = require('./parserTextCleaner')
-
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-]
-
-let parseDate = (stringDate) => {
-  const splitedStringDate = stringDate.split(' ')
-  const month = monthNames.indexOf(splitedStringDate[0])
-  const year = splitedStringDate[1]
-
-  return new Date(year, month, 1)
-}
+let dateReader = require('./parserDateReader')
 
 module.exports = {
   parse: $ => {
@@ -34,10 +12,10 @@ module.exports = {
         company: $(this).find("header > h5").text(),
         description: textCleaner.clear($(this).find(".description").text()),
         durationStart: $(this).find(".experience-date-locale time:first-child").text(),
-        locality: $(this).find(".experience-date-locale .locality").text(),
+        locality: $(this).find(".experience-date-locale .locality").text()
       }
 
-      experience.durationStartDate = parseDate(experience.durationStart)
+      experience.durationStartDate = dateReader.parseDate(experience.durationStart)
 
       if($(this).find(".experience-date-locale").text().indexOf("Present") > -1){
         experience.durationEnd = "Present",
@@ -48,8 +26,8 @@ module.exports = {
         experience.durationEnd = $(this).find(".experience-date-locale time:nth-child(2)").text()
         experience.isPresent = false
 
-        experience.durationStartDate = parseDate(experience.durationStart)
-        experience.durationEndDate = parseDate(experience.durationEnd)
+        experience.durationStartDate = dateReader.parseDate(experience.durationStart)
+        experience.durationEndDate = dateReader.parseDate(experience.durationEnd)
       }
 
       experiences.push(experience)
