@@ -4,7 +4,7 @@ let should = require('chai').should()
 
 let profileParser = require('../../../src/domain/profileParser')
 
-describe('language parser tests', () => {
+describe('skills parser tests', () => {
   let profile;
 
   before(() => {

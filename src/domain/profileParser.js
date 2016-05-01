@@ -11,6 +11,8 @@ let languagesParser = require('./parsers/languagesParser')
 let organizationsParser = require('./parsers/organizationsParser')
 let basicProfileParser = require('./parsers/basicProfileParser')
 let skillsParser = require('./parsers/skillsParser')
+let publicationsParser = require('./parsers/publicationsParser')
+let additionalInfoParser = require('./parsers/additionalInfoParser')
 
 module.exports = {
   parse: (html) => {
@@ -25,6 +27,8 @@ module.exports = {
     profile.languages = languagesParser.parse($)
     profile.organizations = organizationsParser.parse($)
     profile.skills = skillsParser.parse($)
+    profile.publications = publicationsParser.parse($)
+    profile.additionalInfo = additionalInfoParser.parse($)
 
     return profile
   }

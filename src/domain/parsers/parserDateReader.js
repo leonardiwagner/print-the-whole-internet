@@ -19,8 +19,17 @@ module.exports = {
   parseDate: (stringDate) => {
     const splitedStringDate = stringDate.split(' ')
     const month = monthNames.indexOf(splitedStringDate[0])
-    const year = splitedStringDate[1]
+    let year, day = undefined
 
-    return new Date(year, month, 1)
+    const hasDayInfo = stringDate.indexOf(',') > 0
+    if(hasDayInfo) {
+      year = splitedStringDate[2]
+      day = splitedStringDate[1].replace(',', '')
+    } else {
+      year = splitedStringDate[1]
+      day = 1
+    }
+
+    return new Date(year, month, day)
   }
 }
