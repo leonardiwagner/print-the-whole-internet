@@ -11,6 +11,8 @@ module.exports = {
 
       skills.push(skill)
     })
+
+    skills.pop() //last skill is blank
     return skills
   }
 }
