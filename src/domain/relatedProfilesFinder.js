@@ -1,16 +1,12 @@
-'use strict';
+'use strict'
 
-module.exports = {
-  getProfilesFr
-}
+let cheerio = require('cheerio')
 
-var cheerio = require('cheerio')
-var $ = undefined;
+let getRelatedProfiles = function (html) {
+  let $ = cheerio.load(html);
+  let profiles = []
 
-var getProfileLinks = function () {
-  var profiles = []
-
-  var pushProfile = href => {
+  let pushProfile = href => {
     const idStart = href.indexOf("id=") + 3
     const idEnd = href.indexOf("&", idStart)
     const id = href.substr(idStart, idEnd - idStart);
@@ -21,23 +17,20 @@ var getProfileLinks = function () {
     })
   }
 
+  //people also viewed
   $("a.browse-map-photo").each(function (i, elem) {
     pushProfile($(this).attr("href"))
-  });
+  })
 
+  //related profiles
   $("a.discovery-photo").each(function (i, elem) {
     pushProfile($(this).attr("href"))
-  });
+  })
 
-  return profiles;
+  return profiles
 }
 
 
-module.exports = function (html) {
-  $ = cheerio.load(html);
-
-  return {
-    parse: parse,
-    getProfileLinks: getProfileLinks
-  }
+module.exports = {
+    getRelatedProfiles: getRelatedProfiles
 }
