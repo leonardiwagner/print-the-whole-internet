@@ -2,7 +2,7 @@
 
 module.exports = {
   parse: $ => {
-    let languages = []
+    const languages = []
     $("#languages li").each(function (i, elem) {
       const language = {
         title: $(this).find("h4").text(),

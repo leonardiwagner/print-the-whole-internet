@@ -2,7 +2,7 @@
 
 module.exports = {
   parse: $ => {
-    let skills = []
+    const skills = []
     $(".skill-pill").each(function (i, elem) {
       const skill = {
         count: parseInt($(this).find(".num-endorsements").attr("data-count")),

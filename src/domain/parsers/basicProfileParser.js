@@ -1,8 +1,8 @@
 'use strict';
 
-let cheerio = require('cheerio');
+const cheerio = require('cheerio');
 
-let textCleaner = require('./parserTextCleaner')
+const textCleaner = require('./parserTextCleaner')
 
 var parse = function ($) {
   var profile = {

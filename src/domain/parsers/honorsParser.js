@@ -2,7 +2,7 @@
 
 module.exports = {
   parse: $ => {
-    let honors = []
+    const honors = []
     $("#background-honors > div").each(function (i, elem) {
       const honor = {
         title: $(this).find("h4").text(),

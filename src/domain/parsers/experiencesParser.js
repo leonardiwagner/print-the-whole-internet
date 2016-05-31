@@ -1,13 +1,13 @@
 'use strict'
 
-let textCleaner = require('./parserTextCleaner')
-let dateReader = require('./parserDateReader')
+const textCleaner = require('./parserTextCleaner')
+const dateReader = require('./parserDateReader')
 
 module.exports = {
   parse: $ => {
-    let experiences = []
+    const experiences = []
     $("#background-experience > div").each(function () {
-      let  experience = {
+      const  experience = {
         title: $(this).find("h4").text(),
         company: $(this).find("header > h5").text(),
         description: textCleaner.clear($(this).find(".description").text()),

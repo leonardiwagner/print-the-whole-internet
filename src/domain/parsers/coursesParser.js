@@ -2,9 +2,9 @@
 
 module.exports = {
   parse: $ => {
-    let courses = []
+    const courses = []
     $("#courses > div > .section-item").each(function () {
-      let  course = {
+      const  course = {
         title: $(this).find("h4").text(),
         items: []
       }

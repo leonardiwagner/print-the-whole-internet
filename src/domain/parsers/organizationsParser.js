@@ -1,10 +1,10 @@
 'use strict'
 
-let textCleaner = require('./parserTextCleaner')
+const textCleaner = require('./parserTextCleaner')
 
 module.exports = {
   parse: $ => {
-    let organizations = []
+    const organizations = []
     $("#background-organizations > div").each(function (i, elem) {
       const organization = {
         title: $(this).find("h4").text(),

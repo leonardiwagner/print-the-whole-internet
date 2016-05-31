@@ -1,24 +1,25 @@
 'use strict';
 
-let cheerio = require('cheerio')
+const cheerio = require('cheerio')
 
-let educationsParser = require('./parsers/educationsParser')
-let experiencesParser = require('./parsers/experiencesParser')
-let coursesParser = require('./parsers/coursesParser')
-let projectsParser = require('./parsers/projectsParser')
-let honorsParser = require('./parsers/honorsParser')
-let languagesParser = require('./parsers/languagesParser')
-let organizationsParser = require('./parsers/organizationsParser')
-let basicProfileParser = require('./parsers/basicProfileParser')
-let skillsParser = require('./parsers/skillsParser')
-let publicationsParser = require('./parsers/publicationsParser')
-let additionalInfoParser = require('./parsers/additionalInfoParser')
+const educationsParser = require('./parsers/educationsParser')
+const experiencesParser = require('./parsers/experiencesParser')
+const coursesParser = require('./parsers/coursesParser')
+const projectsParser = require('./parsers/projectsParser')
+const honorsParser = require('./parsers/honorsParser')
+const languagesParser = require('./parsers/languagesParser')
+const organizationsParser = require('./parsers/organizationsParser')
+const basicProfileParser = require('./parsers/basicProfileParser')
+const skillsParser = require('./parsers/skillsParser')
+const publicationsParser = require('./parsers/publicationsParser')
+const additionalInfoParser = require('./parsers/additionalInfoParser')
+const relatedProfilesFinder = require('./parsers/relatedProfilesFinder')
 
 module.exports = {
   parse: (html) => {
-    let $ = cheerio.load(html)
+    const $ = cheerio.load(html)
 
-    let profile = basicProfileParser.parse($)
+    const profile = basicProfileParser.parse($)
     profile.educations = educationsParser.parse($)
     profile.experiences = experiencesParser.parse($)
     profile.courses = coursesParser.parse($)
@@ -29,6 +30,7 @@ module.exports = {
     profile.skills = skillsParser.parse($)
     profile.publications = publicationsParser.parse($)
     profile.additionalInfo = additionalInfoParser.parse($)
+    profile.relatedProfiles = relatedProfilesFinder.find($)
 
     return profile
   }
