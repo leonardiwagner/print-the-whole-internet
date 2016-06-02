@@ -2,18 +2,18 @@
 
 const cheerio = require('cheerio')
 
-const educationsParser = require('./parsers/educationsParser')
-const experiencesParser = require('./parsers/experiencesParser')
-const coursesParser = require('./parsers/coursesParser')
-const projectsParser = require('./parsers/projectsParser')
-const honorsParser = require('./parsers/honorsParser')
-const languagesParser = require('./parsers/languagesParser')
-const organizationsParser = require('./parsers/organizationsParser')
-const basicProfileParser = require('./parsers/basicProfileParser')
-const skillsParser = require('./parsers/skillsParser')
-const publicationsParser = require('./parsers/publicationsParser')
-const additionalInfoParser = require('./parsers/additionalInfoParser')
-const relatedProfilesFinder = require('./parsers/relatedProfilesFinder')
+const educationsParser = require('./educationsParser')
+const experiencesParser = require('./experiencesParser')
+const coursesParser = require('./coursesParser')
+const projectsParser = require('./projectsParser')
+const honorsParser = require('./honorsParser')
+const languagesParser = require('./languagesParser')
+const organizationsParser = require('./organizationsParser')
+const basicProfileParser = require('./basicProfileParser')
+const skillsParser = require('./skillsParser')
+const publicationsParser = require('./publicationsParser')
+const additionalInfoParser = require('./additionalInfoParser')
+const relatedProfilesFinder = require('./relatedProfilesFinder')
 
 module.exports = {
   parse: (html) => {

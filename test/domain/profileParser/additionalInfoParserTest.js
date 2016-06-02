@@ -2,9 +2,11 @@
 
 let should = require('chai').should()
 
-let profileParser = require('../../../src/domain/profileParser')
 
-describe('additional info parser tests', () => {
+
+let profileParser = require('./../../../src/domain/profileParser/profileParser')
+
+describe('additional info profileParser tests', () => {
   let profile;
 
   before(() => {
