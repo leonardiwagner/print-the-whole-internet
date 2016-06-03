@@ -23,7 +23,7 @@
         "type": "nested",
         "properties": {
             "count": {"type": "integer"},
-            "title": {"type": "integer", "index": "not_analyzed"}
+            "title": {"type": "string", "index": "not_analyzed"}
         }
     },
     "educations": {

@@ -10,8 +10,8 @@ var client = new elasticsearch.Client({
 let add = (profile) =>{
   return new Promise((resolve, reject) => {
     client.index({
-      index: 'printthewholeinternet',
-      type: 'page',
+      index: 'linklies',
+      type: 'profile',
       body: profile
     }, function (error, response) {
       if(error) reject(error)

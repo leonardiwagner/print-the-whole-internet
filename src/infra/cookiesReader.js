@@ -8,6 +8,7 @@ let read = fileName => {
       if (err) reject(err)
 
       const rawCookieFile = JSON.parse(data)
+
       const parsedCookies = rawCookieFile.map(cookieInfo => {
         return {
           'name': cookieInfo.name,

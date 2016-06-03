@@ -3,12 +3,12 @@
 let request = require('request')
 request = request.defaults({jar: true})
 
-let cookiesReader = require('./cookiesReader')
+const cookiesReader = require('./cookiesReader')
 
-let getCookiesJar = () => {
-  let cookiesJar = request.jar();
+const getCookiesJar = (cookieLocation) => {
+  const cookiesJar = request.jar();
 
-  return cookiesReader.read('./infra/cookies.json').then(cookies => {
+  return cookiesReader.read(cookieLocation).then(cookies => {
     cookies.forEach(function (cookie) {
       cookiesJar.setCookie(request.cookie(cookie.name + '=' + cookie.value), "http://www.linkedin.com")
     })
@@ -17,7 +17,7 @@ let getCookiesJar = () => {
   })
 }
 
-let requestPage = (url, cookiesJar) => {
+const requestPage = (url, cookiesJar) => {
   const options = {method: 'GET', url: url, jar: cookiesJar};
   return new Promise((resolve, reject) => {
     request(options, function (error, response, body) {
@@ -27,13 +27,15 @@ let requestPage = (url, cookiesJar) => {
   })
 }
 
-module.exports = {
-  readBody: url => {
-    return getCookiesJar().then(cookieJar => {
-      return requestPage(url, cookieJar)
-    }).then(body => {
-      return body
-    })
+module.exports = (cookieLocation) => {
+  return{
+    readBody: url => {
+      return getCookiesJar(cookieLocation).then(cookieJar => {
+        return requestPage(url, cookieJar)
+      }).then(body => {
+        return body
+      })
+    }
   }
 }
 

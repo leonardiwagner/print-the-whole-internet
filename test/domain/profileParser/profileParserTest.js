@@ -11,6 +11,7 @@ describe('profile profileParser tests', () => {
       let fs = require('fs')
       const html = fs.readFileSync(__dirname + '/profiles/profile1.html', 'utf8')
       profile = profileParser.parse(html)
+      console.log(JSON.stringify(profile))
     })
 
     it('should parse basic profile info', () => {
