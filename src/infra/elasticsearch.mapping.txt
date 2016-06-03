@@ -1,89 +1,101 @@
-PUT linkelies/_mapping/profile
 {
   "properties": {
-    "name": {"type": "string"}
-    "locality": {"type": "string"}
-    "industry": {"type": "string"}
-    "summary": {"type": "string"}
-    "connectionsCount": {"type": "integer"}
+    "name": {"type": "string"},
+    "locality": {"type": "string", "index": "not_analyzed"},
+    "industry": {"type": "string", "index": "not_analyzed"},
+    "summary": {"type": "string"},
+    "connectionsCount": {"type": "integer"},
     "experiences": {
         "type": "nested",
         "properties": {
-            "title": {"type": "string"}
-            "company": {"type": "string"}
-            "description": {"type": "string"}
-            "durationStart": {"type": "string"}
-            "durationEnd": {"type": "string"}
-            "durationStartDate": {"type": "date"}
-            "durationEndDate": {"type": "date"}
-            "locality": {"type": "string"}
+            "title": {"type": "string", "index": "not_analyzed"},
+            "company": {"type": "string", "index": "not_analyzed"},
+            "description": {"type": "string"},
+            "durationStart": {"type": "string"},
+            "durationEnd": {"type": "string"},
+            "durationStartDate": {"type": "date"},
+            "durationEndDate": {"type": "date"},
+            "locality": {"type": "string", "index": "not_analyzed"},
             "isPresent": {"type": "boolean" }
         }
-    }
+    },
     "skills": {
         "type": "nested",
         "properties": {
-            "count": {"type": "number"}
-            "title": {"type": "integer"}
+            "count": {"type": "integer"},
+            "title": {"type": "integer", "index": "not_analyzed"}
         }
-    }
+    },
     "educations": {
         "type": "nested",
         "properties": {
-            "title": {"type": "string"}
-            "degree": {"type": "string"}
-            "description": {"type": "string"}
-            "startYear": {"type": "integer" }
-            "endYear": {"type": "integer" }
-            "durationYears": {"type": "integer"}
-            "majors: { "type": "string" }
+            "title": {"type": "string", "index": "not_analyzed"},
+            "degree": {"type": "string", "index": "not_analyzed"},
+            "description": {"type": "string"},
+            "startYear": {"type": "integer" },
+            "endYear": {"type": "integer" },
+            "durationYears": {"type": "integer"},
+            "majors": { "type": "string", "index": "not_analyzed" }
         }
-    }
+    },
     "honors": {
       "type": "nested",
       "properties": {
-          "title": {"type": "string"}
-          "company": {"type": "string"}
-          "time": {"type": "string"}
+          "title": {"type": "string", "index": "not_analyzed"},
+          "company": {"type": "string", "index": "not_analyzed"},
+          "time": {"type": "string"},
           "description": {"type": "string"}
       }
-    }
+    },
     "languages": {
       "type": "nested",
       "properties": {
-          "title": {"type": "string"}
+          "title": {"type": "string", "index": "not_analyzed"},
           "proficiency": {"type": "string"}
       }
-    }
-    "endorsements.received": {"type": "integer" }
-    "endorsements.given": {"type": "integer" }
+    },
+    "endorsements": {
+        "type": "nested",
+        "properties": {
+            "received": {"type": "integer"},
+            "given": {"type": "integer"}
+        }
+    },
     "courses": {
       "type": "nested",
       "properties": {
-          "title": {"type": "string"}
+          "title": {"type": "string", "index": "not_analyzed"},
           "items": {"type": "string"}
       }
-    }
+    },
     "projects": {
       "type": "nested",
       "properties": {
-          "title": {"type": "string"}
-          "date": {"type": "date"}
+          "title": {"type": "string", "index": "not_analyzed"},
+          "date": {"type": "date"},
           "description": {"type": "string"}
       }
-    }
+    },
     "publications": {
       "type": "nested",
       "properties": {
-          "title": {"type": "string"}
-          "date": {"type": "date"}
+          "title": {"type": "string", "index": "not_analyzed"},
+          "date": {"type": "date"},
           "description": {"type": "string"}
       }
-    }
-    "additionalInfo.interests": { "type": "string" }
-    "additionalInfo.personalInfo: {
-      "type": "nested",
-      "
+    },
+    "additionalInfo" :{
+        "type": "nested",
+        "properties": {
+            "interests":  { "type": "string", "index": "not_analyzed" },
+            "personalInfo": {
+                "type": "nested",
+                "properties": {
+                  "description": {"type": "string"},
+                  "content": {"type": "string"}
+                }
+            }
+        }
     }
   }
 }
