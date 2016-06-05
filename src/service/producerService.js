@@ -10,7 +10,7 @@ const crawler = require('../../src/domain/crawler')(profileParser, pageReader, q
 module.exports = {
   produce: (url) => {
     return crawler.crawUrl(url).then(profile => {
-      const relatedProfiles = crawledProfile.relatedProfiles.peopleAlsoViewed.concat(crawledProfile.relatedProfiles.similar)
+      const relatedProfiles = profile.relatedProfiles.peopleAlsoViewed.concat(profile.relatedProfiles.similar)
       const messages = relatedProfiles.map(profile => { return {
         'key': profile.id,
         'value': profile.href

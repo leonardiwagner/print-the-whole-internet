@@ -1,9 +1,6 @@
 'use strict'
 
-const profile = require('./profile')
-
 module.exports = (profileParser, pageReader, queue, profileRepository) => {
-
   const crawUrl = url => {
     let crawledProfile = undefined
 

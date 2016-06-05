@@ -9,10 +9,11 @@ const profileRepository = require('../../src/infra/profileRepository')
 
 const crawler = require('../../src/domain/crawler')(profileParser, pageReader, queue, profileRepository)
 
-describe.only('crawler tests', () => {
+describe('crawler tests', () => {
   it('should crawl a profile', (done) => {
     const result = crawler.crawUrl('https://www.linkedin.com/in/bruno-von-lasperg-a308862a')
     .then(x => {
+      console.log('vai corinthians', x)
         done();
       }).catch(x => {
         console.log("error" , x)
