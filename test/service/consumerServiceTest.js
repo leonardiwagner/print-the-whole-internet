@@ -2,9 +2,9 @@
 
 const should = require('chai').should()
 
-const producer = require('../../src/service/producerService')
+const consumer = require('../../src/service/consumerService')
 
-describe('producer service tests', () => {
+describe.only('consumer service tests', () => {
   it('should execute producer', function(done){
     this.timeout(5000)
 

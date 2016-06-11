@@ -2,13 +2,14 @@
 
 const producerService = require('./producerService')
 const queue = require('rediskill')('redis', 6379)
+const logger = require('winston')
+logger.level = 'silly';
 
-setTimeout(() => {
+module.exports = {
+  consume: () => {
+    return queue.receiveMessage().then(url => {
+      return producerService.produce(url)
+    })
+  }
+}
 
-  queue.receiveMessage().then(url => {
-    return producerService.produce(url)
-  })
-  .then(() => console.log("producer produced!"))
-  .catch(e => console.log("baile de gala", e))
-
-}, 2000)
